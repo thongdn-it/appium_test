@@ -1,0 +1,6 @@
+Bài test của bạn:
+Sử dụng appium điều khiển 1 thiết bị mobile ios tự động tạo 1 tài khoản mxh bất kỳ (trong những mxh này facebook, youtube, X, tiktok)
+kết quả:
+- source code
+- report nghiên cứu phương thức (mô hình đấu nối, phân rã công việc, thời gian làm từng đầu việc)
+- video kết quả chạy (không cần cầu kỳ, chủ yếu chứng minh được mã nguồn và kiến trúc của em chạy được)

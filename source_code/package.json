@@ -1,0 +1,15 @@
+{
+  "name": "appium_demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": {
+    "url": "https://github.com/thongdn-it/appium_test"
+  },
+  "scripts": {
+    "test": "node ./scripts/create_fb.js"
+  },
+  "devDependencies": {
+    "webdriverio": "^9.0.1"
+  }
+}
