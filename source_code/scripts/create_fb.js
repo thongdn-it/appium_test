@@ -1,4 +1,5 @@
 import { remote } from "webdriverio";
+import getOTPFromEmail from "./get_email_otp.js";
 
 const capabilities = {
   platformName: "iOS",
@@ -7,7 +8,7 @@ const capabilities = {
     automationName: "XCUITest",
 
     platformVersion: "16.2",
-    deviceName: "iPhone 8 Plus",
+    deviceName: "iPhone 11 Pro Max",
   },
 };
 
@@ -21,20 +22,23 @@ const wdOpts = {
 // - Utils - //
 async function clickButton(driver, name) {
   const button = await driver.$(`//XCUIElementTypeButton[@name="${name}"]`);
-  return await button.click();
+  await button.click();
+  await driver.pause(1000);
 }
 
 async function setValueTextField(driver, name, value) {
-  const textfield = await driver.$(
-    `//XCUIElementTypeTextField[@name="${name}"]`
-  );
-  return await textfield.setValue(value);
+  const textfield = driver.$(`//XCUIElementTypeTextField[@name="${name}"]`);
+  textfield.click();
+  const result = await textfield.setValue(value);
+  return result;
 }
 async function setValueSecureTextField(driver, name, value) {
   const textfield = await driver.$(
     `//XCUIElementTypeSecureTextField[@name="${name}"]`
   );
-  return await textfield.setValue(value);
+  textfield.click();
+  const result = await textfield.setValue(value);
+  return result;
 }
 
 // - Main Function - //
@@ -43,7 +47,7 @@ async function runTest() {
   try {
     // - màn hình đăng kí  - //
     await driver.url("https://m.facebook.com/reg/");
-
+    await driver.pause(5000);
     await clickButton(driver, "Get Started");
 
     // - Màn hình nhập tên - //
@@ -88,11 +92,7 @@ async function runTest() {
     await clickButton(driver, "Sign up with email address");
 
     // - Màn hình nhập email - //
-    await setValueTextField(
-      driver,
-      "Email address",
-      "thongdn.appium.01@gmail.com"
-    );
+    await setValueTextField(driver, "Email address", "thongdn.2019@gmail.com"); // TODO: change email for signup
     await clickButton(driver, "Next");
 
     // - Màn hình nhập password - //
@@ -104,6 +104,29 @@ async function runTest() {
 
     // - Màn hình Agree term - //
     await clickButton(driver, "I agree");
+
+    // - Nhập OTP - //
+    await driver.pause(20000);
+    let otp = "";
+    do {
+      otp = await getOTPFromEmail();
+    } while (otp.length == 0);
+
+    await setValueTextField(driver, "Confirmation code", otp);
+    await clickButton(driver, "Next");
+    await driver.pause(10000); // delay verify code
+
+    // - Màn hình bật noti - //
+    await clickButton(driver, "Skip");
+
+    // - Màn hình update avatar - //
+    await clickButton(driver, "Skip");
+
+    // - Màn hình download app fb - //
+    await clickButton(driver, "Skip");
+
+    console.log("finish");
+    await driver.pause(5000);
   } finally {
     await driver.pause(1000);
     await driver.deleteSession();

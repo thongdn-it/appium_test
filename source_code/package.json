@@ -7,9 +7,13 @@
     "url": "https://github.com/thongdn-it/appium_test"
   },
   "scripts": {
-    "test": "node ./scripts/create_fb.js"
+    "test": "node ./scripts/create_fb.js",
+    "test-get-otp": "node ./scripts/get_email_otp.js"
   },
   "devDependencies": {
+    "@types/imap-simple": "^4.2.9",
+    "imap": "^0.8.19",
+    "imap-simple": "^5.1.0",
     "webdriverio": "^9.0.1"
   }
 }
